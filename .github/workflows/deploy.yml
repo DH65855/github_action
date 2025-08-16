@@ -1,0 +1,10 @@
+name: Deploy App
+
+on:
+  workflow_dispatch:
+        
+jobs:
+  call-build:
+    uses: DH65855/github_action/.github/workflows/build.yml@main
+    with:
+      version: "3.10"
