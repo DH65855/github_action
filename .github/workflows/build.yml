@@ -1,14 +1,15 @@
 name: Build Reusable
 
 on:
-  workflow_call:
-    inputs:
-      version:
-        required: true
-        type: string
+  workflow_call:            # 保留字不能改名：接受其他的 action 或 workflow 呼叫
+    inputs:                 # 保留字不能改名：定義參數的地方
+      version:              # 外部呼叫的參數名，名稱可自訂
+        required: true      # required 保留字不能改名：參數的必要性
+        type: string        # type 保留字不能改名：int、bool、string 三種資料型別
+        #default: "3.10"    # default 保留字不能改名
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - run: echo "Building version ${{ inputs.version }}"
+jobs:                       # jobs 保留字不能改名
+  build:                    # 名稱自訂
+    runs-on: ubuntu-latest  # runs-on 保留字不能改名
+    steps:                  # steps 保留字不能改名
+    - run: echo "Building version ${{ inputs.version }}" 
