@@ -2,12 +2,12 @@ name: 鉅亨網新聞抓取
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # 每天 UTC 00:00 執行（台灣時間 +8 小時）
+    - cron: "0 0 * * *"  # 每天 UTC 00:00 執行（台灣時間 08:00）
   workflow_dispatch:       # 允許手動觸發
 
 permissions:
-  contents: write
-  
+  contents: write   # 允許對 repo 有寫入權限
+
 jobs:
   update-sheet:
     runs-on: ubuntu-latest
@@ -16,8 +16,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: true  # 預設即為 true，保險寫上
-          
+          persist-credentials: true
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -29,15 +29,21 @@ jobs:
 
       - name: Run script
         run: python cnyes.py
-        
-      - name: save csv
+
+      - name: List files after script
+        run: ls -alh
+
+      - name: Commit and Push changes
         run: |
           git config --global user.name "DH65855"
           git config --global user.email "ataka110871@gmail.com"
+
+          # 先 add 再檢查有沒有變更
+          git add -A
           if git diff --cached --quiet; then
-            echo "No changes to commit"
+            echo "✅ No changes to commit"
             exit 0
           fi
-          git add -A
+
           git commit -m "更新鉅亨網新聞"
           git push
